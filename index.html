@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strux P2P - სამშენებლო ბირჟა</title>
+    <title>Strux P2P - სრული ფუნქციონალი</title>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { --charcoal: #2A2E35; --orange: #FF6B00; --soft-gray: #F4F6F8; --white: #ffffff; --border: #E1E5E9; --success: #00c582; --error: #e74c3c; }
         body { font-family: 'Inter', sans-serif; margin: 0; background: var(--soft-gray); color: var(--charcoal); }
         .logo-font { font-family: 'Teko', sans-serif; font-weight: 700; text-transform: uppercase; }
-        
         header { background: var(--white); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
         .logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none; }
         .logo-icon { width: 35px; height: 35px; background: var(--charcoal); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--orange); font-size: 24px; }
@@ -20,35 +19,30 @@
         .card { background: var(--white); padding: 30px; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 30px; }
         .section-title { font-size: 24px; font-weight: 800; margin-bottom: 25px; border-left: 5px solid var(--orange); padding-left: 15px; }
 
-        /* Buttons */
-        .btn { padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-family: inherit; transition: 0.2s; font-size: 14px; }
+        .btn { padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-family: inherit; transition: 0.2s; font-size: 13px; }
         .btn-primary { background: var(--orange); color: white; }
-        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--charcoal); }
-        .btn-delete { background: #fee2e2; color: #ef4444; width: 100%; margin-top: 10px; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-error { background: var(--error); color: white; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); }
 
-        /* Profile Menu Dropdown */
+        /* Profile Dropdown */
         .profile-wrapper { position: relative; }
-        .profile-trigger { display: flex; align-items: center; gap: 10px; cursor: pointer; background: var(--soft-gray); padding: 5px 15px; border-radius: 50px; border: 1px solid var(--border); }
-        .dropdown-menu { position: absolute; top: 110%; right: 0; background: white; width: 220px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 1px solid var(--border); display: none; overflow: hidden; }
-        .dropdown-item { padding: 12px 20px; font-size: 14px; cursor: pointer; transition: 0.2s; }
+        .profile-btn { background: white; border: 1px solid var(--border); padding: 8px 15px; border-radius: 50px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .dropdown { position: absolute; top: 120%; right: 0; background: white; width: 220px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid var(--border); display: none; z-index: 100; }
+        .dropdown-item { padding: 12px 20px; cursor: pointer; font-size: 14px; }
         .dropdown-item:hover { background: var(--soft-gray); color: var(--orange); }
 
-        /* Form Layout */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; font-family: inherit; }
-        
-        /* Marketplace */
-        .market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
-        .post-card { background: white; padding: 25px; border-radius: 12px; border: 1px solid var(--border); transition: 0.3s; }
-        .badge { background: var(--soft-gray); padding: 5px 12px; border-radius: 50px; font-size: 12px; font-weight: 700; }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; }
 
-        /* Modals */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .modal-content { background: white; padding: 35px; border-radius: 20px; width: 400px; position: relative; }
-        .modal-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
-        .tab { flex: 1; text-align: center; padding: 10px; cursor: pointer; font-weight: 600; color: #94a3b8; }
-        .tab.active { color: var(--orange); border-bottom: 2px solid var(--orange); }
+        .market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .post-card { background: white; padding: 25px; border-radius: 15px; border: 1px solid var(--border); position: relative; }
+        .bid-count { position: absolute; top: 15px; right: 15px; background: var(--orange); color: white; padding: 3px 10px; border-radius: 50px; font-size: 11px; font-weight: 800; }
+
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-content { background: white; padding: 35px; border-radius: 20px; width: 450px; max-height: 80vh; overflow-y: auto; }
         
+        .bid-item { border: 1px solid var(--border); padding: 15px; border-radius: 10px; margin-top: 10px; background: #fafafa; }
         .hidden { display: none !important; }
     </style>
 </head>
@@ -66,107 +60,99 @@
     </div>
 
     <div id="user-zone" class="profile-wrapper hidden">
-        <div class="profile-trigger" onclick="toggleDropdown()">
-            <span id="user-display-email" style="font-size: 13px; font-weight: 600;"></span>
-            <span style="font-size: 12px;">▼</span>
+        <div class="profile-btn" onclick="toggleDropdown()">
+            <span id="user-email-label" style="font-weight: 700;"></span>
+            <span id="role-label" class="logo-font" style="color:var(--orange)"></span>
         </div>
-        <div id="dropdown" class="dropdown-menu">
-            <div class="dropdown-item" id="switch-text" onclick="switchRole()">გადადი გამყიდველის პანელზე</div>
-            <div class="dropdown-item" style="color: var(--error); border-top: 1px solid var(--border);" onclick="logout()">გამოსვლა</div>
+        <div id="dropdown" class="dropdown">
+            <div class="dropdown-item" onclick="switchRole()" id="switch-btn-text">გადადი გამყიდველზე</div>
+            <div class="dropdown-item" style="color:var(--error); border-top:1px solid var(--border)" onclick="logout()">გამოსვლა</div>
         </div>
     </div>
 </header>
 
 <div class="container">
     <div id="buyer-panel" class="hidden">
-        <h2 class="section-title">მყიდველის პანელი - ახალი მოთხოვნის დამატება</h2>
+        <h2 class="section-title">განცხადების დამატება</h2>
         <div class="card">
             <div class="form-grid">
-                <div><label>პროდუქტის დასახელება</label><input type="text" id="p-name" placeholder="მაგ: არმატურა A500C"></div>
-                <div><label>კატეგორია</label><select id="p-cat"><option>მასალები</option><option>ტექნიკა</option><option>მომსახურება</option></select></div>
-                <div><label>რაოდენობა</label><input type="text" id="p-qty" placeholder="მაგ: 10 ტ"></div>
-                <div><label>ბიუჯეტი (₾)</label><input type="number" id="p-budget" placeholder="არჩევითი"></div>
-                <div style="grid-column: span 2;"><label>დეტალები</label><textarea id="p-desc" rows="3" placeholder="მიუთითეთ ლოკაცია და დეტალები..."></textarea></div>
-                <button class="btn btn-primary" style="grid-column: span 2;" onclick="savePost()">განცხადების განთავსება</button>
+                <div><label>პროდუქტი</label><input type="text" id="p-name" placeholder="მაგ: არმატურა"></div>
+                <div><label>რაოდენობა</label><input type="text" id="p-qty" placeholder="10 ტონა"></div>
+                <div style="grid-column: span 2;"><textarea id="p-desc" placeholder="დეტალები..."></textarea></div>
+                <button class="btn btn-primary" onclick="savePost()">გამოქვეყნება</button>
             </div>
         </div>
     </div>
 
-    <h2 class="section-title">აქტიური ბაზარი</h2>
+    <h2 class="section-title">ბაზარი</h2>
     <div id="market" class="market-grid"></div>
 </div>
 
 <div id="authModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-tabs">
-            <div id="tab-login" class="tab" onclick="setAuthMode('login')">შესვლა</div>
-            <div id="tab-reg" class="tab" onclick="setAuthMode('reg')">რეგისტრაცია</div>
+    <div class="modal-content" style="width:320px">
+        <h2 id="auth-title" class="logo-font">შესვლა</h2>
+        <input type="email" id="auth-email" placeholder="ელ-ფოსტა">
+        <div id="reg-fields" class="hidden">
+            <select id="auth-role" style="margin-top:10px">
+                <option value="both">ორივე როლი</option>
+                <option value="buyer">მყიდველი</option>
+                <option value="seller">გამყიდველი</option>
+            </select>
         </div>
-        <div id="auth-form">
-            <input type="email" id="auth-email" placeholder="ელ-ფოსტა">
-            <div id="reg-only" class="hidden">
-                <label style="margin-top:10px; display:block;">დარეგისტრირდი როგორც:</label>
-                <select id="auth-role">
-                    <option value="buyer">მყიდველი</option>
-                    <option value="seller">გამყიდველი</option>
-                    <option value="both">ორივე</option>
-                </select>
-            </div>
-            <button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="handleAuth()">დადასტურება</button>
-            <button class="btn" style="width:100%; margin-top:10px; background:none; color:#94a3b8;" onclick="closeModal('authModal')">გაუქმება</button>
-        </div>
+        <button class="btn btn-primary" style="width:100%; margin-top:20px" onclick="handleAuth()">დადასტურება</button>
     </div>
 </div>
 
-<div id="bidModal" class="modal">
+<div id="sendBidModal" class="modal">
     <div class="modal-content">
-        <h2 class="logo-font" style="color: var(--orange)">შეთავაზების გაკეთება</h2>
-        <p id="bid-target-title" style="font-weight:600;"></p>
-        <label>შენი ფასი (₾)</label>
-        <input type="number" id="bid-price" placeholder="მაგ: 500">
-        <label style="margin-top:10px; display:block;">კომენტარი</label>
-        <textarea id="bid-comment" rows="3" placeholder="მიუთითეთ ვადები ან პირობები..."></textarea>
-        <button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="submitBid()">შეთავაზების გაგზავნა</button>
-        <button class="btn" style="width:100%; margin-top:10px; background:none;" onclick="closeModal('bidModal')">გაუქმება</button>
+        <h2 class="logo-font">შეთავაზება</h2>
+        <input type="number" id="bid-price" placeholder="ფასი (₾)">
+        <textarea id="bid-comment" placeholder="კომენტარი..." style="margin-top:10px"></textarea>
+        <button class="btn btn-primary" style="width:100%; margin-top:15px" onclick="submitBid()">გაგზავნა</button>
+        <button class="btn" style="width:100%" onclick="closeModals()">გაუქმება</button>
+    </div>
+</div>
+
+<div id="viewBidsModal" class="modal">
+    <div class="modal-content">
+        <h2 class="logo-font">შემოსული შეთავაზებები</h2>
+        <div id="bids-list"></div>
+        <button class="btn btn-outline" style="width:100%; margin-top:15px" onclick="closeModals()">დახურვა</button>
     </div>
 </div>
 
 <script>
-    let user = JSON.parse(localStorage.getItem('strux_user')) || null;
-    let authMode = 'login';
-    let currentBidPostId = null;
+    let user = JSON.parse(localStorage.getItem('strux_user'));
+    let posts = JSON.parse(localStorage.getItem('strux_posts')) || [];
+    let bids = JSON.parse(localStorage.getItem('strux_bids')) || [];
+    let selectedPostId = null;
 
     window.onload = function() { updateUI(); renderMarket(); };
 
-    function openAuth(mode) { setAuthMode(mode); document.getElementById('authModal').style.display = 'flex'; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    
-    function setAuthMode(mode) {
-        authMode = mode;
-        document.getElementById('tab-login').className = mode === 'login' ? 'tab active' : 'tab';
-        document.getElementById('tab-reg').className = mode === 'reg' ? 'tab active' : 'tab';
-        document.getElementById('reg-only').classList.toggle('hidden', mode === 'login');
+    function toggleDropdown() { 
+        const d = document.getElementById('dropdown');
+        d.style.display = d.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function openAuth(mode) {
+        document.getElementById('auth-title').innerText = mode === 'reg' ? 'რეგისტრაცია' : 'შესვლა';
+        document.getElementById('reg-fields').classList.toggle('hidden', mode === 'login');
+        document.getElementById('authModal').style.display = 'flex';
     }
 
     function handleAuth() {
         const email = document.getElementById('auth-email').value;
         const role = document.getElementById('auth-role').value;
         if(!email) return alert("შეიყვანეთ მეილი");
-        
-        user = { email, role, activeRole: (role === 'both' ? 'buyer' : role) };
+        user = { email, role, activeRole: (role === 'seller' ? 'seller' : 'buyer') };
         localStorage.setItem('strux_user', JSON.stringify(user));
         location.reload();
     }
 
     function logout() { localStorage.removeItem('strux_user'); location.reload(); }
 
-    function toggleDropdown() { 
-        const dd = document.getElementById('dropdown');
-        dd.style.display = dd.style.display === 'block' ? 'none' : 'block';
-    }
-
     function switchRole() {
-        user.activeRole = (user.activeRole === 'buyer' ? 'seller' : 'buyer');
+        user.activeRole = user.activeRole === 'buyer' ? 'seller' : 'buyer';
         localStorage.setItem('strux_user', JSON.stringify(user));
         location.reload();
     }
@@ -175,65 +161,84 @@
         if(user) {
             document.getElementById('guest-zone').classList.add('hidden');
             document.getElementById('user-zone').classList.remove('hidden');
-            document.getElementById('user-display-email').innerText = user.email;
-            
-            const isBoth = user.role === 'both';
-            const switchBtn = document.getElementById('switch-text');
-            switchBtn.classList.toggle('hidden', !isBoth);
-            switchBtn.innerText = user.activeRole === 'buyer' ? "გადადი გამყიდველის პანელზე" : "გადადი მყიდველის პანელზე";
-
+            document.getElementById('user-email-label').innerText = user.email;
+            document.getElementById('role-label').innerText = user.activeRole === 'buyer' ? '[მყიდველი]' : '[გამყიდველი]';
+            document.getElementById('switch-btn-text').innerText = user.activeRole === 'buyer' ? "გადადი გამყიდველზე" : "გადადი მყიდველზე";
             if(user.activeRole === 'buyer') document.getElementById('buyer-panel').classList.remove('hidden');
         }
     }
 
     function savePost() {
         const name = document.getElementById('p-name').value;
-        const qty = document.getElementById('p-qty').value;
-        if(!name || !qty) return alert("შეავსეთ სახელი და რაოდენობა");
-
-        const posts = JSON.parse(localStorage.getItem('strux_posts')) || [];
-        posts.unshift({ id: Date.now(), owner: user.email, name, qty, cat: document.getElementById('p-cat').value, budget: document.getElementById('p-budget').value, desc: document.getElementById('p-desc').value });
+        if(!name) return;
+        posts.unshift({ id: Date.now(), owner: user.email, name, qty: document.getElementById('p-qty').value, desc: document.getElementById('p-desc').value });
         localStorage.setItem('strux_posts', JSON.stringify(posts));
         location.reload();
     }
 
-    function deletePost(id) {
-        if(!confirm("წავშალოთ განცხადება?")) return;
-        let posts = JSON.parse(localStorage.getItem('strux_posts')) || [];
-        localStorage.setItem('strux_posts', JSON.stringify(posts.filter(p => p.id !== id)));
-        renderMarket();
+    function renderMarket() {
+        const market = document.getElementById('market');
+        market.innerHTML = posts.map(p => {
+            const postBids = bids.filter(b => b.postId === p.id);
+            const isOwner = user && p.owner === user.email;
+            return `
+                <div class="post-card">
+                    ${postBids.length > 0 ? `<div class="bid-count">${postBids.length} შეთავაზება</div>` : ''}
+                    <h3>${p.name} - ${p.qty}</h3>
+                    <p style="font-size:12px; color:#666">${p.desc}</p>
+                    <div style="margin-top:15px; display:flex; flex-direction:column; gap:8px;">
+                        ${user && user.activeRole === 'seller' && !isOwner ? `<button class="btn btn-primary" onclick="openSendBid(${p.id})">შეთავაზება</button>` : ''}
+                        ${isOwner ? `<button class="btn btn-outline" onclick="viewBids(${p.id})">შეთავაზებების ნახვა</button>` : ''}
+                        ${isOwner ? `<button class="btn btn-error" style="background:none; color:red; font-size:11px;" onclick="deletePost(${p.id})">განცხადების წაშლა</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }).join('');
     }
 
-    // Bid Logic
-    function openBidModal(postId, postTitle) {
-        currentBidPostId = postId;
-        document.getElementById('bid-target-title').innerText = postTitle;
-        document.getElementById('bidModal').style.display = 'flex';
-    }
+    function openSendBid(id) { selectedPostId = id; document.getElementById('sendBidModal').style.display = 'flex'; }
+    function closeModals() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
 
     function submitBid() {
         const price = document.getElementById('bid-price').value;
-        const comment = document.getElementById('bid-comment').value;
         if(!price) return alert("მიუთითეთ ფასი");
-        
-        alert(`შეთავაზება გაიგზავნა მყიდველთან!\nფასი: ₾${price}\nკომენტარი: ${comment}`);
-        closeModal('bidModal');
+        bids.push({ id: Date.now(), postId: selectedPostId, seller: user.email, price, comment: document.getElementById('bid-comment').value, status: 'pending' });
+        localStorage.setItem('strux_bids', JSON.stringify(bids));
+        alert("შეთავაზება გაიგზავნა!");
+        location.reload();
     }
 
-    function renderMarket() {
-        const posts = JSON.parse(localStorage.getItem('strux_posts')) || [];
-        const market = document.getElementById('market');
-        market.innerHTML = posts.map(p => `
-            <div class="post-card">
-                <span class="badge">${p.cat}</span>
-                <h3 style="margin:15px 0 5px 0;">${p.name} - ${p.qty}</h3>
-                <p style="font-size:13px; color:#64748b;">${p.desc}</p>
-                <p style="font-weight:700; color:var(--orange)">ბიუჯეტი: ${p.budget ? '₾'+p.budget : '---'}</p>
-                
-                ${user && user.activeRole === 'seller' ? `<button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="openBidModal(${p.id}, '${p.name}')">შეთავაზება</button>` : ''}
-                ${user && p.owner === user.email ? `<button class="btn btn-delete" onclick="deletePost(${p.id})">🗑 წაშლა</button>` : ''}
+    function viewBids(postId) {
+        selectedPostId = postId;
+        const list = document.getElementById('bids-list');
+        const postBids = bids.filter(b => b.postId === postId);
+        list.innerHTML = postBids.length ? postBids.map(b => `
+            <div class="bid-item" style="${b.status === 'accepted' ? 'border-color:var(--success)' : ''}">
+                <strong>${b.seller}</strong>
+                <p style="color:var(--orange); font-weight:800; margin:5px 0;">ფასი: ₾${b.price}</p>
+                <p style="font-size:12px;">${b.comment}</p>
+                <div style="margin-top:10px; display:flex; gap:10px;">
+                    ${b.status === 'pending' ? `
+                        <button class="btn btn-success" style="flex:1" onclick="updateBidStatus(${b.id}, 'accepted')">დასტური</button>
+                        <button class="btn btn-error" style="flex:1" onclick="updateBidStatus(${b.id}, 'rejected')">უარყოფა</button>
+                    ` : `<span style="color:${b.status === 'accepted' ? 'var(--success)' : 'var(--error)'}; font-weight:bold">${b.status === 'accepted' ? 'დადასტურებულია' : 'უარყოფილია'}</span>`}
+                </div>
             </div>
-        `).join('');
+        `).join('') : '<p>შეთავაზებები ჯერ არ არის.</p>';
+        document.getElementById('viewBidsModal').style.display = 'flex';
+    }
+
+    function updateBidStatus(bidId, status) {
+        bids = bids.map(b => b.id === bidId ? {...b, status} : b);
+        localStorage.setItem('strux_bids', JSON.stringify(bids));
+        viewBids(selectedPostId);
+    }
+
+    function deletePost(id) {
+        if(!confirm("წაშლა?")) return;
+        posts = posts.filter(p => p.id !== id);
+        localStorage.setItem('strux_posts', JSON.stringify(posts));
+        location.reload();
     }
 </script>
 </body>
